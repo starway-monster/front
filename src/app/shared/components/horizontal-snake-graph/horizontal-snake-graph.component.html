@@ -4,19 +4,24 @@
       <ng-container *ngFor="let item of graphItemGroup.items; index as itemIndex">
         <div class="item-horizontal-arrow" *ngIf="itemIndex > 0" [class.reverse]="graphItemGroup.isReverseRow">
           <div class="horizontal-arrow"></div>
-          <button color="primary" class="execute-btn" mat-flat-button>Execute</button>
+          <button color="primary" class="execute-btn" mat-flat-button
+            (mouseenter)="hoverItem([graphItemGroup.items[itemIndex-1].value, item.value])"
+            (mouseleave)="hoverItem([])">Execute
+          </button>
         </div>
         <div class="item-content">
           <span class="item-content__text">{{item.value}}</span>
           <div class="item-content__circle" [style.background-color]="colors(item.value)"
             [class.hovered]="hoveredItems.includes(item.value)"
-            (mouseenter)="hoverItem(item.value)" (mouseleave)="hoverItem([])"></div>
+            (mouseenter)="hoverItem([item.value])" (mouseleave)="hoverItem([])"></div>
         </div>
       </ng-container>
     </div>
     <div class="empty-row" [class.reverse]="graphItemGroup.isReverseRow" *ngIf="indexRow < graphItemGroups.length - 1">
       <div class="item-vertical-arrow">
-        <button color="primary" class="execute-btn" mat-flat-button>Execute</button>
+        <button color="primary" class="execute-btn" mat-flat-button
+          (mouseenter)="hoverItem([graphItemGroup.items[graphItemGroup.items.length - 1].value, graphItemGroups[indexRow+1].items[0].value])"
+          (mouseleave)="hoverItem([])">Execute</button>
         <div class="vertical-arrow"></div>
       </div>
     </div>

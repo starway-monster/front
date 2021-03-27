@@ -9,7 +9,10 @@
       <div class="zone-path-title__details mb-2">
         <span class="path-detail-info">Projected fee: {{selectedPath.fee}}</span>
         <span class="path-detail-info">Transfers: {{selectedPath.transfers}}</span>
-        <button color="primary" class="execute-all-btn" mat-flat-button>Execute All</button>
+        <button color="primary" class="execute-all-btn" mat-flat-button
+          (mouseenter)="hoverAllPath()"
+          (mouseleave)="unhoverAllPath()"
+        >Execute All</button>
       </div>
     </div>
 

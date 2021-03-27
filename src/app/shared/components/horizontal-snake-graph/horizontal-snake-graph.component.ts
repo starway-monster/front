@@ -82,8 +82,8 @@ export class HorizontalSnakeGraphComponent implements OnChanges {
     }
   }
 
-  hoverItem(zoneName: string) {
-    this.hoveredItemsChanged.next([zoneName]);
+  hoverItem(zoneName: string[]) {
+    this.hoveredItemsChanged.next(zoneName);
   }
 
   public colors = (name: string) => this.colorsMappingService.getColorByZone(name);

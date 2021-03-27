@@ -1,6 +1,6 @@
 import { ColorsMappingService } from './../../services/colors-mapping.service';
 import { Observable } from 'rxjs';
-import { ZoneEventsHandlerService } from './../../services/zone-events-handler.service';
+import { ZoneEventsHandlerService, HoveredConnection } from './../../services/zone-events-handler.service';
 import { ChangeDetectionStrategy, Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import * as d3 from 'd3';
 import { ChordSubgroup, DefaultArcObject } from 'd3';
@@ -60,14 +60,16 @@ export class DependencyWheelChartComponent implements OnInit {
       .subscribe((hoveredZone) => {
         this.handleGroupHover(hoveredZone);
       })
+
+    this.zoneEventsHandlerService.hoveredConnections$
+      .subscribe((hoveredConnections) => {
+        this.handleChordHover(hoveredConnections);
+      })
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if ((changes.data || changes.names) && this.data && this.names && this.names.length) {
       this.updateChart();
-    }
-    if (changes.hoveredChord) {
-      this.handleChordHover(this.hoveredChord);
     }
   }
 
@@ -175,13 +177,10 @@ export class DependencyWheelChartComponent implements OnInit {
 
   private onChordMouseEvent(isOver: boolean) {
     return (mouseEvent: any, data: any) => {
-      d3.selectAll('.arc')
-        .filter((d: ChordSubgroup) => d.index === data.source.index || d.index === data.target.index)
-        .attr('fill-opacity', this.getOpacity(isOver));
-      d3.select(mouseEvent.srcElement)
-        .attr('fill-opacity', this.getOpacity(isOver));
       const hoveredItems = isOver ? [this.names[data.source.index], this.names[data.target.index]] : [];
       this.zoneEventsHandlerService.setHoveredZones(...hoveredItems);
+      this.zoneEventsHandlerService.setHoveredConnections(
+        ...[{ zone1: this.names[data.source.index], zone2: this.names[data.target.index]} as HoveredConnection]);
     }
   }
 
@@ -189,6 +188,17 @@ export class DependencyWheelChartComponent implements OnInit {
     return (_mouseEvent: any, data: any) => {
       const hoveredItems = isOver ? [this.names[data.index]] : [];
       this.zoneEventsHandlerService.setHoveredZones(...hoveredItems);
+      let hoveredConnections = [];
+      if (isOver) {
+        for (let i = 0; i < this.data.length; i++) {
+          const chordData = this.data[i];
+          if (chordData.source === this.names[data.index]
+            || chordData.target === this.names[data.index]) {
+              hoveredConnections.push({ zone1: chordData.source, zone2: chordData.target })
+            }
+        }
+      }
+      this.zoneEventsHandlerService.setHoveredConnections(...hoveredConnections);
     }
   }
 
@@ -201,11 +211,11 @@ export class DependencyWheelChartComponent implements OnInit {
       .attr('fill-opacity', this.getOpacity(true));
   }
 
-  private handleChordHover(hoveredChord: ChordsData) {
-    d3.selectAll('.arc')
+  private handleChordHover(hoveredChord: HoveredConnection[]) {
+    d3.selectAll('.chord')
       .attr('fill-opacity', this.getOpacity(false));
-    d3.selectAll('.arc')
-      .filter((d: ChordSubgroup) => this.chordFilter(d, hoveredChord))
+    d3.selectAll('.chord')
+      .filter((d: any) => this.chordFilter(d, hoveredChord))
       .attr('fill-opacity', this.getOpacity(true));
   }
 
@@ -213,9 +223,9 @@ export class DependencyWheelChartComponent implements OnInit {
     return group && group.length > 0 && group.includes(this.names[d.index]);
   }
 
-  private chordFilter(d: ChordSubgroup, chord: ChordsData) {
-    return chord && (d.index === this.names.indexOf(chord.source)
-          || d.index === this.names.indexOf(chord.target));
+  private chordFilter(d: any, hoveredChords: HoveredConnection[]) {
+    return hoveredChords.some(chord => chord.zone1 === this.names[d.source.index] && chord.zone2 === this.names[d.target.index]
+      || chord.zone2 === this.names[d.source.index] && chord.zone1 === this.names[d.target.index]);
   }
 
   private getOpacity(isOver: boolean) {

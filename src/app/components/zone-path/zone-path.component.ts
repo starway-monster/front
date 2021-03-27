@@ -1,4 +1,4 @@
-import { ZoneEventsHandlerService } from './../../shared/services/zone-events-handler.service';
+import { HoveredConnection, ZoneEventsHandlerService } from './../../shared/services/zone-events-handler.service';
 import { IBestPathsDetails, IDetailedPathInformation } from './../../api/models/zone.model';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 
@@ -66,5 +66,21 @@ export class ZonePathComponent implements OnChanges {
 
   hoveredItemChanged(itemName: string[]) {
     this.zoneEventsHandlerService.setHoveredZones(...itemName);
+    if (itemName.length > 1) {
+      this.zoneEventsHandlerService.setHoveredConnections({zone1: itemName[0], zone2: itemName[1]});
+    } else {
+      this.zoneEventsHandlerService.setHoveredConnections(...[]);
+    }
+  }
+
+  hoverAllPath() {
+    this.zoneEventsHandlerService.setHoveredZones(...this.graphPath)
+    const hoveredConnections = this.selectedPath.graph.map(pathItem => ({ zone1: pathItem.fromZone, zone2: pathItem.toZone } as HoveredConnection));
+    this.zoneEventsHandlerService.setHoveredConnections(...hoveredConnections);
+  }
+
+  unhoverAllPath() {
+    this.zoneEventsHandlerService.setHoveredZones(...[]);
+    this.zoneEventsHandlerService.setHoveredConnections(...[])
   }
 }
