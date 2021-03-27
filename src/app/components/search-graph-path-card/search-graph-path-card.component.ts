@@ -22,7 +22,6 @@ export class SearchGraphPathCardComponent implements OnInit {
   selectedFromZone: string;
   selectedToZone: string;
   excludedZones: string[];
-  initialState = true;
   zonesBestPath: IBestPathsDetails = undefined;
 
   constructor(private readonly zonesService: ZoneService,
@@ -35,15 +34,10 @@ export class SearchGraphPathCardComponent implements OnInit {
     this.zonesService.getPath(this.selectedFromZone, this.selectedToZone, this.excludedZones)
       .pipe(
         takeLast(1),
-        catchError(err => {
-          return of(undefined);
-        }),
-        finalize(() => {
-          this.initialState = false;
-          this.changeDetectorRef.detectChanges()
-        })
+        catchError(_ => of(undefined))
       ).subscribe(result => {
         this.zonesBestPath = result;
+        this.changeDetectorRef.detectChanges();
       });
   }
 

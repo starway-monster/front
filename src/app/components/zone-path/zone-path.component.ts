@@ -30,6 +30,8 @@ export class ZonePathComponent implements OnChanges {
 
   graphPath: string[];
 
+  initialState = true;
+
   hoveredItems$ = this.zoneEventsHandlerService.hoveredZones$;
 
   constructor(
@@ -40,6 +42,7 @@ export class ZonePathComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.bestPathsDetails) {
       this.onSelectedPathTypeChanged(PathType.byTransfersCount)
+      this.initialState = false;
     }
   }
 

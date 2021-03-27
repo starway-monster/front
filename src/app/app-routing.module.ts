@@ -11,6 +11,11 @@ const routes: Routes = [
         path: '',
         loadChildren: () => import('./pages/dashboard/dashboard.module')
           .then(m => m.DashboardModule)
+      },
+      {
+        path: 'unescrow',
+        loadChildren: () => import('./pages/unescrow-token/unescrow-token.module')
+          .then(m => m.UnescrowTokenModule)
       }
     ]
   },

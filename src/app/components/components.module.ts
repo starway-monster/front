@@ -1,3 +1,4 @@
+import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -18,7 +19,8 @@ import { SearchGraphPathCardComponent } from './search-graph-path-card/search-gr
     SharedModule,
     MatButtonModule,
     MatButtonToggleModule,
-    FormsModule
+    FormsModule,
+    RouterModule
   ]
 })
 export class ComponentsModule { }
