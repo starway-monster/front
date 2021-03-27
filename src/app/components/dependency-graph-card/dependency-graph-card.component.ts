@@ -7,20 +7,11 @@ import { ChordsData } from 'src/app/shared/components/dependency-wheel-chart/dep
   styleUrls: ['./dependency-graph-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DependencyGraphCardComponent implements OnInit {
-
-  @Input()
-  colors;
+export class DependencyGraphCardComponent {
 
   @Input()
   zoneDependencies: ChordsData[] = [];
 
   @Input()
   zoneNames: string[] = [];
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
 }

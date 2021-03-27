@@ -1,3 +1,4 @@
+import { ColorsMappingService } from './../services/colors-mapping.service';
 import { ZoneEventsHandlerService } from './../services/zone-events-handler.service';
 import { ChangeDetectionStrategy, EventEmitter, Input, Output } from '@angular/core';
 import { Component } from '@angular/core';
@@ -15,7 +16,7 @@ export class ZoneSelectorComponent {
   @Input() items: string[] = [];
   @Input() label: string;
   @Input() isMultiple: boolean;
-  @Input() colors: d3.ScaleOrdinal<string, string, never>;
+
   @Output() selectedItemChange: EventEmitter<string> = new EventEmitter<string>();
 
   @Input() set selectedItem(value: string) {
@@ -23,7 +24,8 @@ export class ZoneSelectorComponent {
       this.selectedItemChange.emit(value);
   }
 
-  constructor(private readonly zoneEventsHandlerService: ZoneEventsHandlerService) { }
+  constructor(private readonly zoneEventsHandlerService: ZoneEventsHandlerService,
+    private readonly colorsMappingService: ColorsMappingService) { }
 
   get selectedItem(): string {
     return this.currentSelectedItem;
@@ -32,4 +34,6 @@ export class ZoneSelectorComponent {
   public hoverItem(hoveredZone: string) {
     this.zoneEventsHandlerService.setHoveredZones(hoveredZone);
   }
+
+  public colors = (name: string) => this.colorsMappingService.getColorByZone(name);
 }

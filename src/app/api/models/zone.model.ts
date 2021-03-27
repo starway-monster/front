@@ -23,6 +23,7 @@ export interface IBestPathsDetails {
 export interface IDetailedPathInformation {
   fee: number;
   transfers: number;
+  channelCombinations: number;
   graph: IPath[]
 }
 
@@ -30,4 +31,5 @@ export interface IPath {
   fromZone: string;
   toZone: string;
   fee: number;
+  channels: string[];
 }

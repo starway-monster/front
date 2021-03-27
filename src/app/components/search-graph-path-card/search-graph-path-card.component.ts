@@ -14,9 +14,6 @@ import { IBestPathsDetails } from 'src/app/api/models/zone.model';
 export class SearchGraphPathCardComponent implements OnInit {
 
   @Input()
-  colors;
-
-  @Input()
   zoneNames: string[] = [];
 
   selectedFromZone: string;

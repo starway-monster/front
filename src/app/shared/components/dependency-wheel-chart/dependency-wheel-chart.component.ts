@@ -1,3 +1,4 @@
+import { ColorsMappingService } from './../../services/colors-mapping.service';
 import { Observable } from 'rxjs';
 import { ZoneEventsHandlerService } from './../../services/zone-events-handler.service';
 import { ChangeDetectionStrategy, Component, Input, OnInit, SimpleChanges } from '@angular/core';
@@ -24,9 +25,6 @@ export class DependencyWheelChartComponent implements OnInit {
   names: string[] = [];
 
   @Input()
-  colors: d3.ScaleOrdinal<string, string, never>;
-
-  @Input()
   hoveredChord: ChordsData;
 
   @Input()
@@ -51,7 +49,9 @@ export class DependencyWheelChartComponent implements OnInit {
   svg: d3.Selection<SVGSVGElement, unknown, HTMLElement, any>;
   hoveredZone$: Observable<string[]>;
 
-  constructor(private readonly zoneEventsHandlerService: ZoneEventsHandlerService) {  }
+  constructor(private readonly zoneEventsHandlerService: ZoneEventsHandlerService,
+    private readonly colorsMappingService: ColorsMappingService
+    ) {  }
 
   ngOnInit(): void {
     this.hoveredZone$ = this.zoneEventsHandlerService.hoveredZones$;
@@ -70,6 +70,8 @@ export class DependencyWheelChartComponent implements OnInit {
       this.handleChordHover(this.hoveredChord);
     }
   }
+
+  public colors = (name: string) => this.colorsMappingService.getColorByZone(name);
 
   public hoverItem(hoveredZone: string) {
     this.zoneEventsHandlerService.setHoveredZones(hoveredZone);

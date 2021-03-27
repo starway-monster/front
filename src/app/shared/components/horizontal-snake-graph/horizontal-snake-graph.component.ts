@@ -1,3 +1,4 @@
+import { ColorsMappingService } from './../../services/colors-mapping.service';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostListener, Input, OnChanges, SimpleChanges, ViewChild, Output, EventEmitter } from '@angular/core';
 
 export interface IGraphItem {
@@ -21,9 +22,6 @@ export class HorizontalSnakeGraphComponent implements OnChanges {
   data: string[];
 
   @Input()
-  colors: d3.ScaleOrdinal<string, string, never>;
-
-  @Input()
   hoveredItems: string[] = [];
 
   @Output()
@@ -45,7 +43,9 @@ export class HorizontalSnakeGraphComponent implements OnChanges {
   private initialWidth = 600;
   private stepWidthSize = 240;
 
-  constructor(private readonly changeDetectiorRef: ChangeDetectorRef) { }
+  constructor(
+    private readonly colorsMappingService: ColorsMappingService,
+    private readonly changeDetectiorRef: ChangeDetectorRef) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.data && this.data) {
@@ -85,6 +85,8 @@ export class HorizontalSnakeGraphComponent implements OnChanges {
   hoverItem(zoneName: string) {
     this.hoveredItemsChanged.next([zoneName]);
   }
+
+  public colors = (name: string) => this.colorsMappingService.getColorByZone(name);
 
   private calculateItemsInRow(): number {
     const width = this.graph?.nativeElement?.clientWidth;

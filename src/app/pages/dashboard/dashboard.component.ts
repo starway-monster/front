@@ -1,3 +1,4 @@
+import { ColorsMappingService } from './../../shared/services/colors-mapping.service';
 import { IBestPathsDetails } from './../../api/models/zone.model';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ApolloQueryResult } from '@apollo/client/core';
@@ -16,27 +17,23 @@ import { ChordsData } from 'src/app/shared/components/dependency-wheel-chart/dep
 })
 export class DashboardComponent implements OnInit {
   allZones = [];
-  colors = d3.scaleOrdinal(this.allZones, d3.schemeCategory10);
-  colorsArr = this.allZones.map(name => this.colors(name));
-  zoneDependencies: ChordsData[] = [
-    {source:'irishub-1', target:'okwme', value:1},
-    {source:'okwme', target:'cosmoshub-4', value:1},
-    {source:'cosmoshub-4', target:'swap-testnet-2001', value:1},
-    {source:'swap-testnet-2001', target:'musselnet-3', value:1},
-  ];
+  zoneDependencies: ChordsData[] = [];
   querySubstription: Subscription;
 
 
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
 
   constructor(private readonly zonesService: ZoneService,
+    private readonly colorsMappingService: ColorsMappingService,
     private readonly changeDetectorRef: ChangeDetectorRef) {  }
 
   ngOnInit() {
     this.zonesService.getAllZones()
       .pipe(takeUntil(this.destroyed$))
       .subscribe((result: ApolloQueryResult<IZonesResult>) => {
-        this.allZones = result?.data?.zones.map(z => z.name) ?? [];
+        const zoneNames = result?.data?.zones.map(z => z.name) ?? [];
+        this.colorsMappingService.setZoneNames(zoneNames);
+        this.allZones = zoneNames;
         this.changeDetectorRef.detectChanges();
       });
 

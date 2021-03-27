@@ -1,24 +1,22 @@
 <div class="content">
   <div class="row">
-    <div class="col-12 col-lg-7 pl-lg-2">
+    <div class="col-12 pl-lg-2">
       <sm-card title="Search Unescrow Path">
         <div class="form-inline search-form pb-3">
-          <!-- <sm-zone-selector class="col-12 col-md-3 pr-md-2"
-            [items]="zoneNames"
-            [label]="'From Zone'"
-            [colors]="colors"
-            [(selectedItem)]="selectedFromZone">
+          <sm-zone-selector class="col-12 col-md-4 pr-md-2"
+            [items]="allZones"
+            [label]="'Current Zone'"
+            [(selectedItem)]="selectedCurrentZone">
           </sm-zone-selector>
-          <sm-zone-selector class="col-12 col-md-3 pr-md-2"
-            [items]="zoneNames"
-            [label]="'To Zone'"
-            [colors]="colors"
-            [(selectedItem)]="selectedToZone">
-          </sm-zone-selector> -->
-          <!-- <button mat-flat-button color="primary" class="search-btn col-12 col-md-2 pb-18" (click)="onSearch()">Search</button> -->
+          <mat-form-field appearance="outline" class="col-12 col-md-6 pr-md-2">
+            <mat-label>Trace</mat-label>
+            <input matInput [(ngModel)]="trace">
+          </mat-form-field>
+          <button mat-flat-button color="primary" class="search-btn col-12 col-md-2 pb-18" (click)="onSearch()">Search</button>
         </div>
         <div class="text-center">
-          <!-- <sm-zone-path [bestPathsDetails]="zonesBestPath" [colors]="colors"></sm-zone-path> -->
+          <sm-zone-path [bestPathsDetails]="zonesUnescrowPath"
+            [multiplePath]="false"></sm-zone-path>
         </div>
       </sm-card>
     </div>

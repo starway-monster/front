@@ -1,7 +1,6 @@
 import { ZoneEventsHandlerService } from './../../shared/services/zone-events-handler.service';
 import { IBestPathsDetails, IDetailedPathInformation } from './../../api/models/zone.model';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
-import { HorizontalSnakeGraphComponent } from 'src/app/shared/components/horizontal-snake-graph/horizontal-snake-graph.component';
 
 export enum PathType {
   byFee = 'byFee',
@@ -17,10 +16,10 @@ export enum PathType {
 export class ZonePathComponent implements OnChanges {
 
   @Input()
-  bestPathsDetails: IBestPathsDetails;
+  bestPathsDetails: IBestPathsDetails & IDetailedPathInformation;
 
   @Input()
-  colors;
+  multiplePath = true;
 
   pathTypes = PathType;
 
@@ -48,16 +47,20 @@ export class ZonePathComponent implements OnChanges {
 
   onSelectedPathTypeChanged(type: PathType) {
     this.selectedPathType = type;
-    this.selectedPath = type === PathType.byFee
-      ? this.bestPathsDetails.pathByFee
-      : this.bestPathsDetails.pathByTransfers;
-    this.graphPath = this.selectedPath.graph.reduce((prev, curr, index) => {
-      if (index === 0) {
-        prev.push(curr.fromZone);
-      }
-      prev.push(curr.toZone);
-      return prev;
-    }, []);
+    if (this.bestPathsDetails) {
+      this.selectedPath = !this.multiplePath
+        ? this.bestPathsDetails
+        : type === PathType.byFee
+          ? this.bestPathsDetails.pathByFee
+          : this.bestPathsDetails.pathByTransfers;
+      this.graphPath = this.selectedPath.graph.reduce((prev, curr, index) => {
+        if (index === 0) {
+          prev.push(curr.fromZone);
+        }
+        prev.push(curr.toZone);
+        return prev;
+      }, []);
+    }
     this.changeDetectorRef.detectChanges();
   }
 

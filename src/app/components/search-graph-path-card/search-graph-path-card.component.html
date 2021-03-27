@@ -3,25 +3,22 @@
     <sm-zone-selector class="col-12 col-md-3 pr-md-2"
       [items]="zoneNames"
       [label]="'From Zone'"
-      [colors]="colors"
       [(selectedItem)]="selectedFromZone">
     </sm-zone-selector>
     <sm-zone-selector class="col-12 col-md-3 pr-md-2"
       [items]="zoneNames"
       [label]="'To Zone'"
-      [colors]="colors"
       [(selectedItem)]="selectedToZone">
     </sm-zone-selector>
     <sm-zone-selector class="col-12 col-md-4 pr-md-2"
       [isMultiple]="true"
       [items]="zoneNames"
       [label]="'Exclude Zone'"
-      [colors]="colors"
       [(selectedItem)]="excludedZones">
     </sm-zone-selector>
     <button mat-flat-button color="primary" class="search-btn col-12 col-md-2 pb-18" (click)="onSearch()">Search</button>
   </div>
   <div class="text-center">
-    <sm-zone-path [bestPathsDetails]="zonesBestPath" [colors]="colors"></sm-zone-path>
+    <sm-zone-path [bestPathsDetails]="zonesBestPath"></sm-zone-path>
   </div>
 </sm-card>

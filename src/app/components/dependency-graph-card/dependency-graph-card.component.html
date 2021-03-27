@@ -1,7 +1,6 @@
 <sm-card title="Interchain Graph">
-  <sm-dependency-wheel-chart
+  <sm-dependency-wheel-chart *ngIf="zoneNames && zoneNames.length > 0"
     [data]="zoneDependencies"
-    [names]="zoneNames"
-    [colors]="colors">
+    [names]="zoneNames">
   </sm-dependency-wheel-chart>
 </sm-card>

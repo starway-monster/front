@@ -6,7 +6,7 @@ import { WatchQueryOptions } from '@apollo/client/core/watchQueryOptions';
 import { Apollo } from 'apollo-angular';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { IBestPathsDetails, IDependenciesResult, IZonesResult } from '../models/zone.model';
+import { IBestPathsDetails, IDependenciesResult, IDetailedPathInformation, IZonesResult } from '../models/zone.model';
 
 @Injectable({
   providedIn: 'root'
@@ -59,5 +59,14 @@ export class ZoneService {
       params = params.append('exclude', exclude.join(','));
     }
     return this.httpClient.get<IBestPathsDetails>(`${this.apiUrl}/way/search`, { params } )
+  }
+
+
+
+  public getUnescrowPath(currentZone: string, trace: string): Observable<IDetailedPathInformation> {
+    let params = new HttpParams();
+    params = params.append('zonecurrent', currentZone);
+    params = params.append('trace', trace);
+    return this.httpClient.get<IDetailedPathInformation>(`${this.apiUrl}/way/un-escrow`, { params } )
   }
 }
