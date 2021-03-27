@@ -33,3 +33,15 @@ export interface IPath {
   fee: number;
   channels: string[];
 }
+
+export interface IChannelInfo {
+  zone: string;
+  channel_id: string;
+  connection_id: string;
+  ibc_connection: {
+    ibc_client: {
+      chain_id: string;
+    }
+  }
+}
+

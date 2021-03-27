@@ -1,0 +1,22 @@
+<div class="content">
+  <div class="row">
+    <div class="col-12 pl-lg-2">
+      <sm-card title="Channels Information">
+        <table class="channels-table">
+          <tr>
+            <th>Zone</th>
+            <th>Channel Id</th>
+            <th>Connection Id</th>
+            <th>IBC Client Chain Id</th>
+          </tr>
+          <tr *ngFor="let item of channelsInfo">
+            <td>{{item.zone}}</td>
+            <td>{{item.channel_id}}</td>
+            <td>{{item.connection_id}}</td>
+            <td>{{item.ibc_connection.ibc_client.chain_id}}</td>
+          </tr>
+        </table>
+      </sm-card>
+    </div>
+  </div>
+</div>

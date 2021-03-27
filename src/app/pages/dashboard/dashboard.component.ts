@@ -20,7 +20,6 @@ export class DashboardComponent implements OnInit {
   zoneDependencies: ChordsData[] = [];
   querySubstription: Subscription;
 
-
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
 
   constructor(private readonly zonesService: ZoneService,

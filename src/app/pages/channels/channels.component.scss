@@ -1,0 +1,10 @@
+@import 'theme';
+
+.channels-table {
+  width: 100%;
+
+  tr{
+    border-bottom: 1px solid $primary;
+    height: 35px;
+  }
+}

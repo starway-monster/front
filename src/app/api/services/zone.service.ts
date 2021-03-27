@@ -6,7 +6,7 @@ import { WatchQueryOptions } from '@apollo/client/core/watchQueryOptions';
 import { Apollo } from 'apollo-angular';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { IBestPathsDetails, IDependenciesResult, IDetailedPathInformation, IZonesResult } from '../models/zone.model';
+import { IBestPathsDetails, IChannelInfo, IDependenciesResult, IDetailedPathInformation, IZonesResult } from '../models/zone.model';
 
 @Injectable({
   providedIn: 'root'
@@ -32,6 +32,21 @@ export class ZoneService {
     }
   `;
 
+  private readonly channelsInfo = gql`
+    query MyQuery {
+      ibc_channels(where: {is_opened: {_eq: true}}, order_by: {zone: asc}) {
+        zone
+        channel_id
+        connection_id
+        ibc_connection {
+          ibc_client {
+            chain_id
+          }
+        }
+      }
+    }
+  `;
+
   constructor(private readonly apollo: Apollo,
     private readonly httpClient: HttpClient) { }
 
@@ -51,6 +66,15 @@ export class ZoneService {
       .valueChanges;
   }
 
+
+  public getChannelsInfo(): Observable<ApolloQueryResult<IChannelInfo>> {
+    return this.apollo
+      .watchQuery<IChannelInfo>({
+        query: this.channelsInfo
+      } as WatchQueryOptions<IChannelInfo>)
+      .valueChanges;
+  }
+
   public getPath(fromZone: string, toZone: string, exclude?: string[]): Observable<IBestPathsDetails> {
     let params = new HttpParams();
     params = params.append('from', fromZone);
@@ -60,8 +84,6 @@ export class ZoneService {
     }
     return this.httpClient.get<IBestPathsDetails>(`${this.apiUrl}/way/search`, { params } )
   }
-
-
 
   public getUnescrowPath(currentZone: string, trace: string): Observable<IDetailedPathInformation> {
     let params = new HttpParams();

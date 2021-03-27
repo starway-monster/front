@@ -16,6 +16,11 @@ const routes: Routes = [
         path: 'unescrow',
         loadChildren: () => import('./pages/unescrow-token/unescrow-token.module')
           .then(m => m.UnescrowTokenModule)
+      },
+      {
+        path: 'channels',
+        loadChildren: () => import('./pages/channels/channels.module')
+          .then(m => m.ChannelsModule)
       }
     ]
   },
