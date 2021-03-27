@@ -12,5 +12,10 @@
 
   .nav-link {
     cursor: pointer;
+
+    &:hover,
+    &.active {
+      color: #ab47bc;
+    }
   }
 }
