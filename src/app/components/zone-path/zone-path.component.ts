@@ -21,6 +21,9 @@ export class ZonePathComponent implements OnChanges {
   @Input()
   multiplePath = true;
 
+  @Input()
+  initialState: boolean;
+
   pathTypes = PathType;
 
   selectedPathType: PathType = PathType.byTransfersCount;
@@ -29,7 +32,6 @@ export class ZonePathComponent implements OnChanges {
 
   graphPath: string[];
 
-  initialState = true;
 
   hoveredItems$ = this.zoneEventsHandlerService.hoveredZones$;
 
@@ -41,7 +43,6 @@ export class ZonePathComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.bestPathsDetails) {
       this.onSelectedPathTypeChanged(PathType.byTransfersCount)
-      this.initialState = false;
     }
   }
 
