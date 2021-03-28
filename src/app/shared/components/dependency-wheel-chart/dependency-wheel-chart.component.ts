@@ -176,11 +176,11 @@ export class DependencyWheelChartComponent implements OnInit {
   }
 
   private onChordMouseEvent(isOver: boolean) {
-    return (mouseEvent: any, data: any) => {
+    return (_mouseEvent: any, data: any) => {
       const hoveredItems = isOver ? [this.names[data.source.index], this.names[data.target.index]] : [];
       this.zoneEventsHandlerService.setHoveredZones(...hoveredItems);
-      this.zoneEventsHandlerService.setHoveredConnections(
-        ...[{ zone1: this.names[data.source.index], zone2: this.names[data.target.index]} as HoveredConnection]);
+      const hoveredConnections = isOver ? [{ zone1: this.names[data.source.index], zone2: this.names[data.target.index]} as HoveredConnection] : [];
+      this.zoneEventsHandlerService.setHoveredConnections(...hoveredConnections);
     }
   }
 
