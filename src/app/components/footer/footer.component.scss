@@ -1,13 +1,16 @@
+@import 'theme';
+
 .footer {
-  padding: 24px 0 24px 24px;
+  padding: 0;
   color: white;
   line-height: 1.8;
+  background: #1a1e34;
 }
 
 .github-link {
   color: white;
 
   &:hover {
-    color: #ab47bc;
+    color: $accent;
   }
 }
