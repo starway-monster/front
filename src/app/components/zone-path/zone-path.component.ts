@@ -1,6 +1,9 @@
+import { ItransferRequest } from './../../shared/components/horizontal-snake-graph/horizontal-snake-graph.component';
 import { HoveredConnection, ZoneEventsHandlerService } from './../../shared/services/zone-events-handler.service';
 import { IBestPathsDetails, IDetailedPathInformation } from './../../api/models/zone.model';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
+import { TransferDialogComponent } from '../transfer-dialog/transfer-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 export enum PathType {
   byFee = 'byFee',
@@ -37,6 +40,7 @@ export class ZonePathComponent implements OnChanges {
 
   constructor(
     private readonly zoneEventsHandlerService: ZoneEventsHandlerService,
+    private readonly dialog: MatDialog,
     private readonly changeDetectorRef: ChangeDetectorRef
   ) {  }
 
@@ -83,5 +87,28 @@ export class ZonePathComponent implements OnChanges {
   unhoverAllPath() {
     this.zoneEventsHandlerService.setHoveredZones(...[]);
     this.zoneEventsHandlerService.setHoveredConnections(...[])
+  }
+
+  onTransferRequested(request: ItransferRequest) {
+    const pathToExecute = this.selectedPath.graph
+      .find((item) => item.fromZone === request.zone1 && item.toZone === request.zone2);
+    const dialogRef = this.dialog.open(TransferDialogComponent, {
+      width: '500px',
+      data: {
+        fromZone: pathToExecute.fromZone,
+        toZone: pathToExecute.toZone,
+        sourcePort: 'Transfer',
+        sourceChannel: pathToExecute.channels[0],
+        denom: '',
+        sender: '',
+        receiver: '',
+        amount: 0,
+        channels: pathToExecute.channels
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
   }
 }

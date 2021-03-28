@@ -34,16 +34,8 @@
     <mat-label>Amount</mat-label>
     <input type="number" matInput [(ngModel)]="data.amount">
   </mat-form-field>
-  <mat-form-field appearance="outline" class="form-item col-12 col-md-12 pb-2">
-    <mat-label>Fee</mat-label>
-    <input type="number" matInput [(ngModel)]="data.fee">
-  </mat-form-field>
-  <mat-form-field appearance="outline" class="form-item col-12 col-md-12 pb-2">
-    <mat-label>Memo</mat-label>
-    <input matInput [(ngModel)]="data.memo">
-  </mat-form-field>
-  </mat-dialog-content>
-  <div mat-dialog-actions class="float-right">
-    <button mat-button cdkFocusInitial>Reject</button>
-    <button mat-button class="approve-btn btn-success" [mat-dialog-close]="data">Approve</button>
-  </div>
+</mat-dialog-content>
+<div mat-dialog-actions class="float-right">
+  <button mat-button cdkFocusInitial>Reject</button>
+  <button mat-button class="approve-btn btn-success" [mat-dialog-close]="data">Approve</button>
+</div>

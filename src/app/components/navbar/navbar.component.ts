@@ -67,6 +67,8 @@ export class NavbarComponent implements OnInit {
   // tslint:disable-next-line:typedef
   async onExecuteSingle() {
     alert('start');
+    await (window as any).keplr.enable(NavbarComponent.chainId);
+    NavbarComponent.offlineSigner = (window as any).getOfflineSigner(NavbarComponent.chainId);
     const accounts = await NavbarComponent.offlineSigner.getAccounts();
     alert('Addresses count: ' + Object.keys(accounts).length + '\n' + accounts[0].address);
 

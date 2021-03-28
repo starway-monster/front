@@ -19,7 +19,8 @@
     <sm-horizontal-snake-graph
       [data]="graphPath"
       [hoveredItems]="hoveredItems$ | async"
-      (hoveredItemsChanged)="hoveredItemChanged($event)">
+      (hoveredItemsChanged)="hoveredItemChanged($event)"
+      (transferRequested)="onTransferRequested($event)">
     </sm-horizontal-snake-graph>
   </ng-container>
 </ng-container>
