@@ -12,7 +12,13 @@
       <a class="nav-item nav-link" routerLink="/unescrow" routerLinkActive="active">Un-escrow token</a>
       <a class="nav-item nav-link" routerLink="/channels" routerLinkActive="active">Channels</a>
     </div>
-    <button mat-raised-button color="accent" class="mr-2" (click)="onExecuteSingle()">Execute</button>
-    <button mat-raised-button color="accent" class="mr-2" (click)="onConnectWallet()">Connect Wallet</button>
+    <div *ngIf="!!(address$ | async); else connectWalletTemplate" class="connected-address">
+      <button mat-raised-button color="accent" class="mr-2" disabled>Wallet Connected</button>
+    </div>
+
   </div>
 </nav>
+
+<ng-template #connectWalletTemplate>
+  <button mat-raised-button color="accent" class="mr-2" (click)="onConnectWallet()">Connect Wallet</button>
+</ng-template>

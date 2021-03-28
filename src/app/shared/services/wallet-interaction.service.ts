@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MsgTransfer } from 'src/app/components/module/types/ibc/applications/transfer/v1/tx';
 import { txClient } from 'src/app/components/module';
 import { isBroadcastTxFailure, isBroadcastTxSuccess } from '@cosmjs/stargate';
+import { BehaviorSubject } from 'rxjs';
 
 export interface IZoneDetailsData {
   chainId: string;
@@ -24,6 +25,9 @@ export class WalletInteractionService {
 
   public walletSigners: {[chainId: string]: { offlineSigner } } = {};
 
+  private walletAddressSubj = new BehaviorSubject<string>('');
+  public walletAddress$ = this.walletAddressSubj.asObservable();
+
   constructor(private readonly dialog: MatDialog) { }
 
   public async connectWallet() {
@@ -35,7 +39,10 @@ export class WalletInteractionService {
       // Also, it will request user to unlock the wallet if the wallet is locked.
       const chainId = this.chainsData['musselnet-4'].chainId
       await (window as any).keplr.enable(chainId);
-      this.walletSigners[chainId] = { offlineSigner: (window as any).getOfflineSigner(chainId)};
+      const offlineSigner = (window as any).getOfflineSigner(chainId);
+      this.walletSigners[chainId] = { offlineSigner };
+      const accounts = await offlineSigner.getAccounts();
+      this.walletAddressSubj.next(accounts[0].address)
     }
   }
 

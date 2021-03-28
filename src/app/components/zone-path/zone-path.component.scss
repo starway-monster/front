@@ -7,7 +7,8 @@
 
     mat-button-toggle {
       &.mat-button-toggle-checked {
-        background-color: $primary;
+        background: rgb(180,85,229);
+        background: linear-gradient(45deg, rgba(180,85,229,1) 0%, rgba(218,78,206,1) 100%);
       }
     }
   }
