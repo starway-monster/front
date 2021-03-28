@@ -1,5 +1,7 @@
+import { TransferDialogComponent } from './../../../components/transfer-dialog/transfer-dialog.component';
 import { ColorsMappingService } from './../../services/colors-mapping.service';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostListener, Input, OnChanges, SimpleChanges, ViewChild, Output, EventEmitter } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 
 export interface IGraphItem {
   value: string;
@@ -45,6 +47,7 @@ export class HorizontalSnakeGraphComponent implements OnChanges {
 
   constructor(
     private readonly colorsMappingService: ColorsMappingService,
+    private readonly dialog: MatDialog,
     private readonly changeDetectiorRef: ChangeDetectorRef) { }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -99,5 +102,28 @@ export class HorizontalSnakeGraphComponent implements OnChanges {
       }
     }
     return itemsInRow;
+  }
+
+  executeTransfer(item1, item2) {
+    const dialogRef = this.dialog.open(TransferDialogComponent, {
+      width: '500px',
+      data: {
+        fromZone: item1,
+        toZone: item2,
+        sourcePort: 'Transfer',
+        sourceChannel: 'channel-0',
+        denom: '',
+        sender: '',
+        receiver: '',
+        amount: 0,
+        fee: 0,
+        memo: '',
+        channels: ['channel-0', 'channel-1', 'channel-2']
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
   }
 }

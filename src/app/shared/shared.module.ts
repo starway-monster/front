@@ -8,6 +8,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { CardComponent } from './components/card/card.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 
@@ -19,6 +20,7 @@ import { CardComponent } from './components/card/card.component';
     MatFormFieldModule,
     MatSelectModule,
     MatButtonModule,
+    MatDialogModule,
     FormsModule
   ]
 })

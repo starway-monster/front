@@ -6,7 +6,7 @@
           <div class="horizontal-arrow"></div>
           <button color="primary" class="execute-btn" mat-raised-button
             (mouseenter)="hoverItem([graphItemGroup.items[itemIndex-1].value, item.value])"
-            (mouseleave)="hoverItem([])">Execute
+            (mouseleave)="hoverItem([])" (click)="executeTransfer(graphItemGroup.items[itemIndex-1].value, item.value)">Execute
           </button>
         </div>
         <div class="item-content">
@@ -21,7 +21,8 @@
       <div class="item-vertical-arrow">
         <button color="primary" class="execute-btn" mat-raised-button
           (mouseenter)="hoverItem([graphItemGroup.items[graphItemGroup.items.length - 1].value, graphItemGroups[indexRow+1].items[0].value])"
-          (mouseleave)="hoverItem([])">Execute</button>
+          (mouseleave)="hoverItem([])"
+          (click)="executeTransfer(graphItemGroup.items[graphItemGroup.items.length - 1].value, graphItemGroups[indexRow+1].items[0].value)">Execute</button>
         <div class="vertical-arrow"></div>
       </div>
     </div>
