@@ -13,12 +13,12 @@
       <a class="nav-item nav-link" routerLink="/channels" routerLinkActive="active">Channels</a>
     </div>
     <div *ngIf="!!(address$ | async); else connectWalletTemplate" class="connected-address">
-      <button mat-raised-button color="accent" class="mr-2" disabled>Wallet Connected</button>
+      <button mat-raised-button color="accent" class="wallet-btn mr-2" disabled>Wallet Connected</button>
     </div>
 
   </div>
 </nav>
 
 <ng-template #connectWalletTemplate>
-  <button mat-raised-button color="accent" class="mr-2" (click)="onConnectWallet()">Connect Wallet</button>
+  <button mat-raised-button color="accent" class="wallet-btn mr-2" (click)="onConnectWallet()">Connect Wallet</button>
 </ng-template>
