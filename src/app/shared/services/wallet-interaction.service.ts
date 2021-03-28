@@ -1,3 +1,4 @@
+import { TransferResultDialogComponent } from './../../components/transfer-result-dialog/transfer-result-dialog.component';
 import { IPath } from './../../api/models/zone.model';
 import { Injectable } from '@angular/core';
 import { ITransferDetailsData, TransferDialogComponent } from 'src/app/components/transfer-dialog/transfer-dialog.component';
@@ -26,7 +27,6 @@ export class WalletInteractionService {
   constructor(private readonly dialog: MatDialog) { }
 
   public async connectWallet() {
-    alert('onConnectWallet');
     if (!(window as any).getOfflineSigner || !(window as any).keplr) {
       alert('Please install keplr extension');
     } else {
@@ -65,7 +65,6 @@ export class WalletInteractionService {
   }
 
   async executeTransfer(details: ITransferDetailsData) {
-    alert('start');
     const chainDetails = this.chainsData[details.fromZone];
     const offlineSigner = this.walletSigners[chainDetails.chainId].offlineSigner;
 
@@ -84,12 +83,15 @@ export class WalletInteractionService {
 
     const an_encoded_transfer_message = txc.msgTransfer(msgTransferData);
     const result_of_broadcast = await txc.signAndBroadcast([an_encoded_transfer_message]);
-    if (isBroadcastTxFailure(result_of_broadcast)) {
-      console.log('code' + result_of_broadcast.code);
-    }
-    console.log('success' + isBroadcastTxSuccess(result_of_broadcast));
-    console.log('fail' + isBroadcastTxFailure(result_of_broadcast));
-    console.log('tx_hash: ' + result_of_broadcast.transactionHash);
-    console.log('log:' + result_of_broadcast.rawLog);
+
+    const dialogRef = this.dialog.open(TransferResultDialogComponent, {
+      width: '675px',
+      data: {
+        isSuccess: isBroadcastTxSuccess(result_of_broadcast),
+        errorCode: isBroadcastTxFailure(result_of_broadcast) ? result_of_broadcast.code : undefined,
+        transactionHash: result_of_broadcast.transactionHash
+      }
+    });
+    await dialogRef.afterClosed().toPromise();
   }
 }

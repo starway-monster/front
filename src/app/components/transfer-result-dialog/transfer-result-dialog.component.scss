@@ -1,0 +1,22 @@
+@import 'theme';
+
+.transaction-data {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  &__text {
+    flex-grow: 1;
+  }
+}
+
+.material-icons {
+  cursor: pointer;
+  color: white;
+  padding: 10px;
+  border-radius: 4px;
+
+  &:hover {
+    color: $primary;
+  }
+}

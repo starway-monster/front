@@ -15,9 +15,10 @@ import { SearchGraphPathCardComponent } from './search-graph-path-card/search-gr
 import { TransferDialogComponent } from './transfer-dialog/transfer-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
+import { TransferResultDialogComponent } from './transfer-result-dialog/transfer-result-dialog.component';
 
 @NgModule({
-  declarations: [NavbarComponent, FooterComponent, ZonePathComponent, DependencyGraphCardComponent, SearchGraphPathCardComponent, TransferDialogComponent],
+  declarations: [NavbarComponent, FooterComponent, ZonePathComponent, DependencyGraphCardComponent, SearchGraphPathCardComponent, TransferDialogComponent, TransferResultDialogComponent],
   exports: [NavbarComponent, FooterComponent, ZonePathComponent, DependencyGraphCardComponent, SearchGraphPathCardComponent, TransferDialogComponent],
   imports: [
     CommonModule,

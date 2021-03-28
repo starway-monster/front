@@ -1,0 +1,21 @@
+<h2 mat-dialog-title>Transfer Result</h2>
+<mat-dialog-content class="mat-typography">
+  <ng-container *ngIf="data.isSuccess">
+    <div class="transaction-data">
+      <mat-form-field appearance="outline" class="transaction-data__text">
+        <mat-label>TX HASH</mat-label>
+        <input matInput [ngModel]="data.transactionHash" #userInput>
+      </mat-form-field>
+      <span class="copy-icon material-icons" (click)="copyInputMessage(userInput)">content_copy</span>
+      <a href="{{'https://musselnet.cosmwasm.aneka.io/txs/'+data.transactionHash}}" target="_blank">
+        <span class="material-icons">link</span>
+      </a>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="!data.isSuccess">
+    Transfer finished with error. (Error code: {{data.errorCode}})
+  </ng-container>
+</mat-dialog-content>
+<div mat-dialog-actions class="float-right">
+  <button mat-button class="btn btn-primary" mat-dialog-close>Close</button>
+</div>
