@@ -1,5 +1,9 @@
 @import 'theme';
 
+.mat-dialog-title {
+  margin: 0;
+}
+
 .transaction-data {
   display: flex;
   flex-direction: row;
@@ -19,4 +23,8 @@
   &:hover {
     color: $primary;
   }
+}
+
+.succes-img {
+  width: 300px;
 }
