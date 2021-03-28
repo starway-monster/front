@@ -12,6 +12,6 @@
       <a class="nav-item nav-link" routerLink="/unescrow" routerLinkActive="active">Un-escrow token</a>
       <a class="nav-item nav-link" routerLink="/channels" routerLinkActive="active">Channels</a>
     </div>
-    <button mat-raised-button color="accent" class="mr-2">Connect Wallet</button>
-  </div>
+    <button mat-flat-button color="primary" class="mr-2" (click)="onExecuteSingle()">Execute</button>
+    <button mat-raised-button color="accent" class="mr-2">Connect Wallet</button>  </div>
 </nav>
