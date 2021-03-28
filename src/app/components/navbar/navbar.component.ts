@@ -1,3 +1,4 @@
+import { WalletInteractionService } from './../../shared/services/wallet-interaction.service';
 import {isBroadcastTxFailure, isBroadcastTxSuccess, SigningStargateClient} from '@cosmjs/stargate';
 import {Component, OnInit} from '@angular/core';
 import {txClient} from '../module';
@@ -15,7 +16,7 @@ export class NavbarComponent implements OnInit {
   private static offlineSigner;
   private static offlineSigner2;
 
-  constructor() {
+  constructor(private readonly walletInteractionService: WalletInteractionService) {
   }
 
   ngOnInit(): void {
@@ -23,19 +24,21 @@ export class NavbarComponent implements OnInit {
 
   // tslint:disable-next-line:typedef
   async onConnectWallet() {
-    alert('onConnectWallet');
-    if (!(window as any).getOfflineSigner || !(window as any).keplr) {
-      alert('Please install keplr extension');
-    } else {
-      // Enabling before using the Keplr is recommended.
-      // This method will ask the user whether or not to allow access if they haven't visited this website.
-      // Also, it will request user to unlock the wallet if the wallet is locked.
-      await (window as any).keplr.enable(NavbarComponent.chainId);
-      await (window as any).keplr.enable(NavbarComponent.chainId2);
+    await this.walletInteractionService.connectWallet();
 
-      NavbarComponent.offlineSigner = (window as any).getOfflineSigner(NavbarComponent.chainId);
-      NavbarComponent.offlineSigner2 = (window as any).getOfflineSigner(NavbarComponent.chainId2);
-    }
+    // alert('onConnectWallet');
+    // if (!(window as any).getOfflineSigner || !(window as any).keplr) {
+    //   alert('Please install keplr extension');
+    // } else {
+    //   // Enabling before using the Keplr is recommended.
+    //   // This method will ask the user whether or not to allow access if they haven't visited this website.
+    //   // Also, it will request user to unlock the wallet if the wallet is locked.
+    //   await (window as any).keplr.enable(NavbarComponent.chainId);
+    //   await (window as any).keplr.enable(NavbarComponent.chainId2);
+
+    //   NavbarComponent.offlineSigner = (window as any).getOfflineSigner(NavbarComponent.chainId);
+    //   NavbarComponent.offlineSigner2 = (window as any).getOfflineSigner(NavbarComponent.chainId2);
+    // }
   }
 
   // tslint:disable-next-line:typedef

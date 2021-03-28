@@ -1,3 +1,4 @@
+import { WalletInteractionService } from './../../shared/services/wallet-interaction.service';
 import { ItransferRequest } from './../../shared/components/horizontal-snake-graph/horizontal-snake-graph.component';
 import { HoveredConnection, ZoneEventsHandlerService } from './../../shared/services/zone-events-handler.service';
 import { IBestPathsDetails, IDetailedPathInformation } from './../../api/models/zone.model';
@@ -40,7 +41,7 @@ export class ZonePathComponent implements OnChanges {
 
   constructor(
     private readonly zoneEventsHandlerService: ZoneEventsHandlerService,
-    private readonly dialog: MatDialog,
+    private readonly walletInteractionService: WalletInteractionService,
     private readonly changeDetectorRef: ChangeDetectorRef
   ) {  }
 
@@ -92,23 +93,6 @@ export class ZonePathComponent implements OnChanges {
   onTransferRequested(request: ItransferRequest) {
     const pathToExecute = this.selectedPath.graph
       .find((item) => item.fromZone === request.zone1 && item.toZone === request.zone2);
-    const dialogRef = this.dialog.open(TransferDialogComponent, {
-      width: '500px',
-      data: {
-        fromZone: pathToExecute.fromZone,
-        toZone: pathToExecute.toZone,
-        sourcePort: 'Transfer',
-        sourceChannel: pathToExecute.channels[0],
-        denom: '',
-        sender: '',
-        receiver: '',
-        amount: 0,
-        channels: pathToExecute.channels
-      }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
-    });
+    this.walletInteractionService.openDialog(pathToExecute);
   }
 }
